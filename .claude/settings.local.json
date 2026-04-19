@@ -1,0 +1,25 @@
+{
+    "hooks": {
+        "TeammateIdle": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "while :; do echo \"$(date -u +%FT%TZ) keepalive\" >> /tmp/claude-teammate-keepalive.log; sleep 30; done",
+                        "timeout": 45
+                    }
+                ]
+            }
+        ],
+        "SessionStart": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "root=\"$(jq -r .cwd)\"; for d in \"$root\"/*/; do f=\"${d}CLAUDE.md\"; [ -f \"$f\" ] && printf '\\n=== %s ===\\n' \"$f\" && cat \"$f\"; done | jq -Rs '{hookSpecificOutput:{hookEventName:\"SessionStart\",additionalContext:.}}'"
+                    }
+                ]
+            }
+        ]
+    }
+}
