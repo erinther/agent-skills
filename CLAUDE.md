@@ -31,6 +31,21 @@ docs/         → Setup guides for different tools
 - References are in `references/`, not inside skill directories
 - Supporting files only created when content exceeds 100 lines
 
+## Skill discovery
+
+Skills in this repo live on disk as `skills/<name>/SKILL.md`, but they are only
+invokable as `/<name>` slash commands (or via the `Skill` tool) when installed
+under `~/.claude/skills/<name>/` or symlinked there — Claude Code does not
+recursively scan sibling repositories for skills. When this repo is present
+only as a workspace sibling (cloned next to another project, not installed),
+do not assume its skills are registered. Instead:
+
+1. Survey the workspace at session start (`ls` the cwd).
+2. For any `agent-skills/` peer that is present, `Read` the relevant
+   `skills/<name>/SKILL.md` directly and follow its Process section.
+3. Do not report a skill as "not found" based on the registry alone without
+   first checking whether this repo supplies it on disk.
+
 ## Commands
 
 - `npm test` — Not applicable (this is a documentation project)
